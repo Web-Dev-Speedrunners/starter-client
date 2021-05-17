@@ -73,11 +73,11 @@ export const addStudentThunk = ({id, ...newStudent}) => async (dispatch) => {
   }
 };
 
-export const deleteStudentThunk = (studentId) => async (dispatch) => {
+export const deleteStudentThunk = ({id}) => async (dispatch) => {
   try {
-    await axios.delete(`/prod/student/${studentId}`);
+    await axios.delete(`/prod/student/${id}`);
     //delete succesful so change state with dispatch
-    dispatch(ac.deleteStudent(studentId));
+    dispatch(ac.deleteStudent(id));
   } catch (err) {
     console.error(err);
   }

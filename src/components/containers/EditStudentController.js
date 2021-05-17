@@ -54,7 +54,7 @@ class EditStudentContainer extends Component {
         newStudent = await this.props.createStudent(this.state);
         break;
       case ACTIONS.DELETE:
-        console.error("Not implemented in backend yet");
+        console.error("Maybe not merged yet");
         newStudent = await this.props.deleteStudent(this.state);
         break;
       default:
