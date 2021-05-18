@@ -1,6 +1,6 @@
 import * as ac from "./actions/actionCreators";
 const axios = require("axios");
-const BACKEND_URL =  "https://8x74wn1vt2.execute-api.us-east-1.amazonaws.com"
+const BACKEND_URL =  "https://r1chy5zeeh.execute-api.us-east-1.amazonaws.com"
 
 // THUNKS
 
