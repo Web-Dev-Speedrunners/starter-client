@@ -1,6 +1,6 @@
 import * as ac from "./actions/actionCreators";
 const axios = require("axios");
-const BACKEND_URL =  "https://r1chy5zeeh.execute-api.us-east-1.amazonaws.com"
+const BACKEND_URL = "https://r1chy5zeeh.execute-api.us-east-1.amazonaws.com";
 
 // THUNKS
 
@@ -35,7 +35,7 @@ export const deleteCampusThunk = (campusId) => async (dispatch) => {
 
 export const editCampusThunk = (campus) => async (dispatch) => {
   try {
-    let updatedCampus = await axios.put(
+    let updatedCampus = await axios.patch(
       `${BACKEND_URL}/prod/campus/${campus.id}`,
       campus
     );
@@ -65,37 +65,43 @@ export const fetchAllStudentsThunk = () => async (dispatch) => {
   }
 };
 
-export const addStudentThunk = ({id, ...newStudent}) => async (dispatch) => {
-  try {
-    let res = await axios.post(`${BACKEND_URL}/prod/student/`, newStudent);
-    dispatch(ac.addStudent(res.data));
-  } catch (err) {
-    console.error(err);
-  }
-};
+export const addStudentThunk =
+  ({ id, ...newStudent }) =>
+  async (dispatch) => {
+    try {
+      let res = await axios.post(`${BACKEND_URL}/prod/student/`, newStudent);
+      dispatch(ac.addStudent(res.data));
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-export const deleteStudentThunk = ({id}) => async (dispatch) => {
-  try {
-    await axios.delete(`${BACKEND_URL}/prod/student/${id}`);
-    //delete succesful so change state with dispatch
-    dispatch(ac.deleteStudent(id));
-  } catch (err) {
-    console.error(err);
-  }
-};
+export const deleteStudentThunk =
+  ({ id }) =>
+  async (dispatch) => {
+    try {
+      await axios.delete(`${BACKEND_URL}/prod/student/${id}`);
+      //delete succesful so change state with dispatch
+      dispatch(ac.deleteStudent(id));
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
-export const editStudentThunk = ({id, ...rest}) => async (dispatch) => {
-  try {
-    console.log("Edit student", rest)
-    let updatedStudent = await axios.patch(
-      `${BACKEND_URL}/prod/student/${id}`,
-      rest
-    );
-    dispatch(ac.editStudent(updatedStudent));
-  } catch (err) {
-    console.error(err);
-  }
-};
+export const editStudentThunk =
+  ({ id, ...rest }) =>
+  async (dispatch) => {
+    try {
+      console.log("Edit student", rest);
+      let updatedStudent = await axios.patch(
+        `${BACKEND_URL}/prod/student/${id}`,
+        rest
+      );
+      dispatch(ac.editStudent(updatedStudent));
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
 //Single student
 export const fetchStudentThunk = (id) => async (dispatch) => {

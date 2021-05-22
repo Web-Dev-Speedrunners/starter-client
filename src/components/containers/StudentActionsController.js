@@ -1,12 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import {
-  addStudentThunk,
-  deleteStudentThunk,
-  editStudentThunk,
-  fetchStudentThunk,
-} from "../../store/thunks";
-import NavBarContainer from "../containers/NavBarContainer";
+import NavBarContainer from "./NavBarContainer";
 import {
   Button,
   ButtonGroup,
@@ -16,11 +10,17 @@ import {
   InputGroup,
   Label,
 } from "reactstrap";
+import {
+  addStudentThunk,
+  deleteStudentThunk,
+  editStudentThunk,
+  fetchStudentThunk,
+} from "../../store/thunks";
 
 // actions enum
 const ACTIONS = Object.freeze({ EDIT: 1, DELETE: 2, CREATE: 3 });
 
-class EditStudentContainer extends Component {
+class StudentActionsController extends Component {
   constructor(props) {
     super(props);
     this.handleChange = this.handleChange.bind(this);
@@ -47,6 +47,7 @@ class EditStudentContainer extends Component {
     let newStudent = {};
     switch (actionType) {
       case ACTIONS.EDIT:
+        // TODO: fix bug here? create student would return error
         this.props.editStudent(this.state);
         newStudent = await this.props.createStudent(this.state);
         break;
@@ -151,4 +152,4 @@ const mapDispatch = (dispatch) => {
   };
 };
 
-export default connect(mapState, mapDispatch)(EditStudentContainer);
+export default connect(mapState, mapDispatch)(StudentActionsController);

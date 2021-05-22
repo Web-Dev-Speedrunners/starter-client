@@ -3,7 +3,8 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { fetchAllCampusesThunk } from "../../store/thunks";
 import { AllCampusesView } from "../views";
-
+import CampusActionsController from "./CampusActionsController";
+import NavBarContainer from "../containers/NavBarContainer";
 
 class AllCampusesContainer extends Component {
   componentDidMount() {
@@ -11,8 +12,13 @@ class AllCampusesContainer extends Component {
   }
 
   render() {
-    return <AllCampusesView allCampuses={this.props.allCampuses} />;
-
+    return (
+      <div>
+        <NavBarContainer />
+        <AllCampusesView allCampuses={this.props.allCampuses} />;
+        <CampusActionsController />
+      </div>
+    );
   }
 }
 

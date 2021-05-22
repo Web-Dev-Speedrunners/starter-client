@@ -1,13 +1,11 @@
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import NavBarContainer from "../containers/NavBarContainer";
 import { useStyles } from "../../styles/styles.js";
 
 const AllCampusesView = ({ allCampuses }) => {
   const classes = useStyles();
   return (
     <div>
-      <NavBarContainer />
       {/* dynamic render if  */}
       {!allCampuses.length ? (
         <div>There are no campuses.</div>

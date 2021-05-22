@@ -6,15 +6,18 @@ import NavBarContainer from "../containers/NavBarContainer";
 import { CampusView } from "../views";
 
 class CampusContainer extends Component {
-  componentDidMount() {
+  async componentDidMount() {
     //getting campus ID from url
-    this.props.fetchCampus(this.props.match.params.id);
+    console.log("sent ", this.props.match.params);
+    const a = await this.props.fetchCampus(this.props.match.params.id);
+    console.log("got ", a);
   }
 
   render() {
     return (
       <div>
         <NavBarContainer />
+        <pre>{JSON.stringify(this.state)}</pre>
         <CampusView campus={this.props.campus} />
       </div>
     );
