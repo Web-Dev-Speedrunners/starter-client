@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { fetchStudentThunk } from "../../store/thunks";
 import NavBarContainer from "../containers/NavBarContainer";
 
+import StudentActionsController from "../containers/StudentActionsController.js";
 import { StudentView } from "../views";
 
 class StudentContainer extends Component {
@@ -16,6 +17,7 @@ class StudentContainer extends Component {
       <div>
         <NavBarContainer />
         <StudentView student={this.props.student} />
+        <StudentActionsController create={false} student={this.props.student} />
       </div>
     );
   }
