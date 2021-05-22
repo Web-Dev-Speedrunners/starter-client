@@ -34,7 +34,7 @@ class CampusActionController extends Component {
     if (previousProps.create !== this.props.create) {
       this.setState({});
     } else if (previousProps.campus !== this.props.campus) {
-      // this.setState(this.props.campus);
+      this.setState(this.props.campus);
     }
   }
 
