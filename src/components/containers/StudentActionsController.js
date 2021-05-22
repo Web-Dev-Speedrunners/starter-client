@@ -61,7 +61,6 @@ class StudentActionsController extends Component {
         console.error("Unexpected action");
     }
     this.setState(newStudent);
-    console.log(this.state);
   }
 
   render() {

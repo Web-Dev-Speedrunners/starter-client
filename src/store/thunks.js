@@ -48,7 +48,6 @@ export const editCampusThunk = (campus) => async (dispatch) => {
 export const fetchCampusThunk = (id) => async (dispatch) => {
   try {
     let res = await axios.get(`${BACKEND_URL}/prod/campus/${id}`);
-    console.log(res.data);
     dispatch(ac.fetchCampus(res.data));
   } catch (err) {
     console.error(err);
@@ -92,7 +91,6 @@ export const editStudentThunk =
   ({ id, ...rest }) =>
   async (dispatch) => {
     try {
-      console.log("Edit student", rest);
       let updatedStudent = await axios.patch(
         `${BACKEND_URL}/prod/student/${id}`,
         rest

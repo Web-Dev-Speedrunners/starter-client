@@ -5,7 +5,6 @@ import { useStyles } from "../../styles/styles.js";
 
 const AllStudentsView = ({ allStudents }) => {
   const classes = useStyles();
-  console.log(allStudents);
 
   return (
     <div>
