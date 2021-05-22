@@ -80,19 +80,19 @@ class StudentActionsController extends Component {
               <Input
                 type="text"
                 name="firstName"
-                value={this.state.firstName}
+                value={this.state.firstName || ""}
                 onChange={this.handleChange}
               />
               <Input
                 type="text"
                 name="lastName"
-                value={this.state.lastName}
+                value={this.state.lastName || ""}
                 onChange={this.handleChange}
               />
               <Input
                 type="text"
                 name="imageUrl"
-                value={this.state.imageUrl}
+                value={this.state.imageUrl || ""}
                 onChange={this.handleChange}
               />
             </InputGroup>
@@ -100,14 +100,14 @@ class StudentActionsController extends Component {
               <Input
                 type="email"
                 name="email"
-                value={this.state.email}
+                value={this.state.email || ""}
                 onChange={this.handleChange}
               />
               <Input
                 min={0}
                 max={4}
                 type="number"
-                value={this.state.gpa}
+                value={this.state.gpa || ""}
                 name="gpa"
                 onChange={this.handleChange}
                 step=".01"
@@ -150,7 +150,8 @@ class StudentActionsController extends Component {
 
 // Map state to props;
 const mapState = (state) => {
-  return {};
+  return {
+  };
 };
 
 // Map dispatch to props;
