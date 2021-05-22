@@ -28,8 +28,8 @@ class StudentActionsController extends Component {
   }
   async componentDidMount() {
     //getting student ID from url
-    if (this.props.match.params.id !== undefined) {
-      await this.props.fetchStudent(this.props.match.params.id);
+    if (this.props.match?.params.id !== undefined) {
+      await this.props.fetchStudent(this.props?.match.params.id);
       this.setState(this.props.student);
     }
   }
@@ -66,7 +66,6 @@ class StudentActionsController extends Component {
   render() {
     return (
       <div>
-        <NavBarContainer />
         <pre>
           {JSON.stringify(this.state || "No valid student selected", null, 4)}
         </pre>

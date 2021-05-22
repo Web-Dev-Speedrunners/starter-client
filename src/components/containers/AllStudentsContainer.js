@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { fetchAllStudentsThunk } from "../../store/thunks";
 import { AllStudentsView } from "../views";
+import StudentActionsController from "./StudentActionsController";
 
 class AllStudentsContainer extends Component {
   componentDidMount() {
@@ -12,8 +13,8 @@ class AllStudentsContainer extends Component {
   render() {
     return (
       <div>
-        {console.log(this.props)}
         <AllStudentsView allStudents={this.props.allStudents} />;
+        <StudentActionsController />
       </div>
     );
   }

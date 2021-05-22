@@ -24,16 +24,17 @@ class CampusActionController extends Component {
       [buttonEvent.target.name]: buttonEvent.target.value,
     });
   }
-  async componentDidMount() {
-    //getting student ID from url
-    console.log(this.props);
-    if (this.props.campus !== undefined) {
+  componentDidMount() {
+    if (this.props.campus !== undefined && !!this.props.create) {
       this.setState(this.props.campus);
     }
   }
   componentDidUpdate(previousProps) {
-    if (previousProps.campus !== this.props.campus) {
-      this.setState(this.props.campus);
+    console.log(this.props, previousProps);
+    if (previousProps.create !== this.props.create) {
+      this.setState({});
+    } else if (previousProps.campus !== this.props.campus) {
+      // this.setState(this.props.campus);
     }
   }
 
@@ -54,16 +55,16 @@ class CampusActionController extends Component {
         console.error("Unexpected action");
     }
     this.setState(newCampus);
-    console.log(this.state);
   }
 
   render() {
     return (
       <div>
-        <pre>State {JSON.stringify(this.state, null, 4)}</pre>
+        {/* remove when not useful*/}
+        <pre>Debug: {JSON.stringify(this.state, null, 4)}</pre>
+        <Label for="transaction">Campus Actions</Label>
         <Form>
           <FormGroup>
-            <Label for="transaction">Campus Actions</Label>
             <p>Id: {this.state?.id}</p>
             <Input
               type="text"
@@ -89,29 +90,34 @@ class CampusActionController extends Component {
               value={this.state?.description || "Description"}
               onChange={this.handleChange}
             />
-            <FormGroup />
-            <ButtonGroup>
-              <Button
-                color="primary"
-                onClick={(e) => this.handleSubmit(e, ACTIONS.EDIT)}
-              >
-                Edit
-              </Button>
-              <Button
-                value="Delete"
-                color="danger"
-                onClick={(e) => this.handleSubmit(e, ACTIONS.DELETE)}
-              >
-                Delete
-              </Button>
-              <Button
-                value="Create"
-                color="success"
-                onClick={(e) => this.handleSubmit(e, ACTIONS.CREATE)}
-              >
-                Create
-              </Button>
-            </ButtonGroup>
+            {/* show buttons based on what we have on state */}
+            {!!this.props.create ? (
+              <ButtonGroup>
+                <Button
+                  color="primary"
+                  onClick={(e) => this.handleSubmit(e, ACTIONS.EDIT)}
+                >
+                  Edit
+                </Button>
+                <Button
+                  value="Delete"
+                  color="danger"
+                  onClick={(e) => this.handleSubmit(e, ACTIONS.DELETE)}
+                >
+                  Delete
+                </Button>
+              </ButtonGroup>
+            ) : (
+              <ButtonGroup>
+                <Button
+                  value="Create"
+                  color="success"
+                  onClick={(e) => this.handleSubmit(e, ACTIONS.CREATE)}
+                >
+                  Create
+                </Button>
+              </ButtonGroup>
+            )}
           </FormGroup>
         </Form>
       </div>

@@ -16,7 +16,7 @@ class AllCampusesContainer extends Component {
       <div>
         <NavBarContainer />
         <AllCampusesView allCampuses={this.props.allCampuses} />;
-        <CampusActionsController />
+        <CampusActionsController create={false} />
       </div>
     );
   }
