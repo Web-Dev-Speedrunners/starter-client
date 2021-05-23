@@ -49,12 +49,12 @@ const HomePageView = (props) => {
 
   return (
     <>
-      {console.log(
+      {/* {console.log(
         'recentStudents',
         recentStudents,
         'recentCampus',
         recentCampuses
-      )}
+      )} */}
       <NavBarContainer />
 
       <div className={classes.pageContainer}>
@@ -89,7 +89,7 @@ const HomePageView = (props) => {
                     <CampusView campus={campus} />
                   ))
                 ) : (
-                  <></>
+                  <>No Results</>
                 )}
               </Grid>
               <Grid xs={6}>
@@ -103,7 +103,7 @@ const HomePageView = (props) => {
                     return <StudentView student={student} />;
                   })
                 ) : (
-                  <></>
+                  <>No Results</>
                 )}
               </Grid>
             </Grid>
