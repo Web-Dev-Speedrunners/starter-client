@@ -1,10 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import NavBarContainer from '../containers/NavBarContainer';
 import campus_image from './image/campus.jpg';
 import { Container, Grid, Typography } from '@material-ui/core';
-import allCampuses from '../../store/reducers/campuses';
 
 // import studentItem from '../student_item';
 // import { fetchRecentStudentsThunk } from '../../store/thunks';
