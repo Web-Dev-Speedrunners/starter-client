@@ -15,7 +15,7 @@ const useStyles = makeStyles({
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
-    height: '90vh',
+    height: '95vh',
     border: '1px solid',
   },
   container: {
