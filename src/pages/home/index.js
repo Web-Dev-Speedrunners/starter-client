@@ -82,7 +82,7 @@ const HomePage = () => {
                   free to browse as long as you like. Checkout our{" "}
                   <a
                     href="https://github.com/Web-Dev-Speedrunners"
-                    target="_blank"
+                    target="_blank" rel="noreferrer"
                   >
                     repo on github!
                   </a>{" "}
