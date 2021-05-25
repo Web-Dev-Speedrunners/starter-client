@@ -11,6 +11,7 @@ export type CampusDetailBannerFragmentProps = {
 
 const useStyles = makeStyles(theme => ({
   root: {
+    textAlign: "center",
     padding: "36px",
     backgroundColor: theme.palette.secondary.main
   },
