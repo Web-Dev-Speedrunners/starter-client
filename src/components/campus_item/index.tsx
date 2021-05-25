@@ -7,6 +7,7 @@ import { ActionItem } from "../student_item";
 
 export interface CampusItemProps extends CampusModel {
   showDetailOnClick?: boolean;
+  displayDesc?: boolean;
   actions?: ActionItem[];
 }
 
@@ -44,6 +45,7 @@ const CampusItem: React.FC<CampusItemProps> = ({
   imageUrl,
   actions,
   showDetailOnClick = actions ? false : true,
+  displayDesc = true
 }) => {
   const classes = useStyles();
 
@@ -51,8 +53,14 @@ const CampusItem: React.FC<CampusItemProps> = ({
     return (
       <PictureCard imageUrl={imageUrl}>
         <h2 className={classes.name}>{name}</h2>
-        <h5 className={classes.address}>{address}</h5>
-        <h5 className={classes.description}>{description}</h5>
+        {displayDesc ? 
+          <>
+            <h5 className={classes.address}>{address}</h5>
+            <h5 className={classes.description}>{description}</h5>
+          </> :
+          <></>
+        }
+
         {actions?.map((action, key) => (
           <Button
             onClick={action.onClick}
@@ -77,6 +85,7 @@ const CampusItem: React.FC<CampusItemProps> = ({
     description,
     imageUrl,
     name,
+    displayDesc,
   ]);
 
   return (

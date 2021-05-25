@@ -11,6 +11,7 @@ export type ActionItem = {
 
 export interface StudentItemProps extends StudentModel {
   showDetailOnClick?: boolean;
+  displayDesc?: boolean;
   actions?: Array<ActionItem>;
 }
 
@@ -44,6 +45,7 @@ const StudentItem: React.FC<StudentItemProps> = ({
   email,
   imageUrl,
   showDetailOnClick = true,
+  displayDesc = true,
   actions = [],
 }) => {
   const classes = useStyles();
@@ -55,13 +57,19 @@ const StudentItem: React.FC<StudentItemProps> = ({
         <h2 className={classes.name}>
           {firstName} {lastName}
         </h2>
-        <h5 className={classes.detail}>{email}</h5>
-        <h5 className={classes.detail}>GPA: {gpa}</h5>
+        {displayDesc ? 
+          <>
+            <h5 className={classes.detail}>{email}</h5>
+            <h5 className={classes.detail}>GPA: {gpa}</h5>
+          </> :
+          <></>
+        }
+        
 
         {actions.map((action, key) => <Button onClick={action.onClick} key={key} className={classes.actionButton} variant="contained" color="primary"> {action.name} </Button>)}
       </PictureCard>
     );
-  }, [firstName, lastName, email, gpa, classes.detail, classes.name, classes.actionButton, imageUrl, actions]);
+  }, [firstName, lastName, email, gpa, classes.detail, classes.name, classes.actionButton, imageUrl, actions, displayDesc]);
 
   return (
     <div>
