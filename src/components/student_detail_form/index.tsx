@@ -2,20 +2,23 @@ import { Button, makeStyles, TextField } from "@material-ui/core";
 import React, { useMemo, useState } from "react";
 import { CampusModel } from "../../api/campus";
 import { UpdatableStudentProps, StudentModel } from "../../api/student";
-import useEnrollStudent from "../../hooks/useEnrollStudent";
 import { useErrorAlert } from "../../hooks/useErrorAlert";
 import useFormInput from "../../hooks/useFormInput";
+import CampusItem from "../campus_item";
 import StudentItem from "../student_item";
 import CampusSelectFragment from "./campus_selector";
 
 export type StudentDetailFormSubmitOnClickProps = UpdatableStudentProps;
 
 export type StudentDetailFormProps = {
-  initialData?: StudentModel;
   submitButton: {
     title: string;
     onClick: (props: StudentDetailFormSubmitOnClickProps) => Promise<void>;
   };
+  campus?: CampusModel;
+  initialData?: StudentModel;
+  handleCampusEnrollment?: (campus: CampusModel) => Promise<void>;
+  handleUnenroll?: () => Promise<void>;
 };
 
 const useStyles = makeStyles({
@@ -30,6 +33,9 @@ const useStyles = makeStyles({
 
 const StudentDetailForm: React.FC<StudentDetailFormProps> = ({
   initialData,
+  handleCampusEnrollment,
+  handleUnenroll,
+  campus,
   submitButton: { title, onClick: onClickSubmit },
 }) => {
   const [firstName, handleChangeFirstName] = useFormInput(
@@ -46,7 +52,6 @@ const StudentDetailForm: React.FC<StudentDetailFormProps> = ({
 
   const [loading, setLoading] = useState(false);
   const [displayEnrollmentPrompt, setDisplayEnrollmentPrompt] = useState(false);
-  const { enroll } = useEnrollStudent();
 
   const hideEnrollmentPrompt = () => setDisplayEnrollmentPrompt(false);
 
@@ -73,22 +78,42 @@ const StudentDetailForm: React.FC<StudentDetailFormProps> = ({
     }
   };
 
-  const handleCampusEnrollment = async (campus: CampusModel) => {
-    if (initialData === undefined) {
-      // Impossible state
-      hideEnrollmentPrompt();
-      return;
-    }
-    await enroll(initialData.id, campus.id);
+  const handleSelectCampus = async (campus: CampusModel) => {
+    if (handleCampusEnrollment) await handleCampusEnrollment(campus);
     hideEnrollmentPrompt();
   };
+
+  const studentPreviewActions = useMemo(() => {
+    if (initialData === undefined) return; // First time user
+    if (campus) {
+      return [
+        {
+          name: "Change Campus",
+          onClick: async () => setDisplayEnrollmentPrompt(true),
+        },
+        {
+          name: "Unenroll",
+          onClick: async () => {
+            if (handleUnenroll) await handleUnenroll();
+          },
+        },
+      ];
+    }
+    // User with no Campus
+    return [
+      {
+        name: "Set Campus",
+        onClick: async () => setDisplayEnrollmentPrompt(true),
+      },
+    ];
+  }, [campus, handleUnenroll, initialData]);
 
   return (
     <div>
       <CampusSelectFragment
         isOpen={displayEnrollmentPrompt}
         handleClose={hideEnrollmentPrompt}
-        onCampusSelect={handleCampusEnrollment}
+        onCampusSelect={handleSelectCampus}
       />
       <h4>Preview</h4>
       <StudentItem
@@ -99,17 +124,14 @@ const StudentDetailForm: React.FC<StudentDetailFormProps> = ({
         gpa={gpaFloat}
         email={email}
         imageUrl={imageUrl}
-        actions={
-          initialData
-            ? [
-                {
-                  name: "Change Campus",
-                  onClick: async () => setDisplayEnrollmentPrompt(true),
-                },
-              ]
-            : undefined
-        }
+        actions={studentPreviewActions}
       />
+      {campus && (
+        <div>
+          <h4>Enrollment</h4>
+          <CampusItem {...campus} />
+        </div>
+      )}
       <h4>Info</h4>
       <TextField
         variant="outlined"

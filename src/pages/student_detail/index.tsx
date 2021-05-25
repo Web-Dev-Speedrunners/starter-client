@@ -10,6 +10,10 @@ import StudentDetailForm, {
 import { useErrorAlert } from "../../hooks/useErrorAlert";
 import { editStudent } from "../../store/actions/actionCreators";
 import useDeleteStudent from "../../hooks/useDeleteStudent";
+import useGetStudentsCampus from "../../hooks/useGetStudentsCampus";
+import { CampusModel } from "../../api/campus";
+import useEnrollStudent from "../../hooks/useEnrollStudent";
+import useUnenrollStudent from "../../hooks/useUnenrollStudent";
 
 const useStyles = makeStyles({
   content: {
@@ -26,11 +30,24 @@ const StudentDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const studentId = parseInt(id, 10);
   const [initialStudent, setInitialStudent] = useState<StudentModel>();
+  const [studentsCampus, setStudentsCampus] = useState<CampusModel>();
+  const { enroll } = useEnrollStudent();
+  const { unenroll } = useUnenrollStudent();
   const showError = useErrorAlert();
+  const { getStudentsCampus } = useGetStudentsCampus();
 
   const { deleteStudent } = useDeleteStudent();
 
   useEffect(() => {
+    const fetchStudentsCampus = async () => {
+      try {
+        const result = await getStudentsCampus(studentId);
+        setStudentsCampus(result);
+      } catch (error) {
+        showError(error.message);
+      }
+    };
+
     const fetchStudentDetail = async () => {
       try {
         const student = await StudentService.FindById(studentId);
@@ -42,7 +59,9 @@ const StudentDetailPage: React.FC = () => {
     };
 
     fetchStudentDetail();
-  }, [studentId, showError, history]);
+    fetchStudentsCampus();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [studentId]);
 
   const handleUpdateStudent = async (
     data: StudentDetailFormSubmitOnClickProps
@@ -64,18 +83,46 @@ const StudentDetailPage: React.FC = () => {
   const handleDeleteStudent = async (studentId: number) => {
     await deleteStudent(studentId);
     history.goBack();
-  }
+  };
+
+  const handleCampusEnrollment = async (campus: CampusModel) => {
+    if (initialStudent === undefined) {
+      // Impossible state
+      return;
+    }
+    try {
+      await enroll(initialStudent.id, campus.id);
+      setStudentsCampus(campus);
+    } catch (error) {
+      showError(error.message);
+    }
+  };
+
+  const handleUnenroll = async () => {
+    try {
+      await unenroll(studentId);
+      setStudentsCampus(undefined)
+    } catch (error) {
+      showError(error.message);
+    }
+  };
 
   return (
-    <NavbarLayout container actionButton={{
-      name: 'Delete',
-      onClick: () => handleDeleteStudent(studentId),
-    }}>
+    <NavbarLayout
+      container
+      actionButton={{
+        name: "Delete",
+        onClick: () => handleDeleteStudent(studentId),
+      }}
+    >
       <div className={classes.content}>
         {initialStudent === undefined && <LinearProgress />}
         {initialStudent && (
           <StudentDetailForm
             initialData={initialStudent}
+            campus={studentsCampus}
+            handleCampusEnrollment={handleCampusEnrollment}
+            handleUnenroll={handleUnenroll}
             submitButton={{
               title: "Save",
               onClick: handleUpdateStudent,
